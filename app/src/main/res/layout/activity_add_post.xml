@@ -27,7 +27,7 @@
 
                     <ImageView
                         style="@style/parent"
-                        android:background="@drawable/test"
+                        android:background="@drawable/screencopy"
                         android:contentDescription="login background" />
 
                 </LinearLayout>
@@ -49,7 +49,7 @@
                 <!--                    android:layout_gravity="center"-->
                 <!--                    android:layout_marginTop="0dp"/>-->
                 <include
-                    layout="@layout/layout_register"/>
+                    layout="@layout/layout_post"/>
 
             </LinearLayout>
 

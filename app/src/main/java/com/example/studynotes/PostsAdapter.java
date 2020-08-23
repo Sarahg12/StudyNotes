@@ -11,6 +11,8 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.List;
 
@@ -20,20 +22,30 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.MyViewHolder
     private List<Post> albumList;
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        public TextView title, count;
+        public TextView title, idofpost;
         public ImageView thumbnail;
         //, overflow;
 
         public MyViewHolder(View view) {
             super(view);
             title = (TextView) view.findViewById(R.id.title);
-            count = (TextView) view.findViewById(R.id.count);
+            idofpost = (TextView) view.findViewById(R.id.idofpost);
             thumbnail = (ImageView) view.findViewById(R.id.thumbnail);
 //            overflow = (ImageView) view.findViewById(R.id.overflow);
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    view.getContext().startActivity(new Intent(view.getContext(), PostActivity.class));
+                    view.getContext().startActivity(new Intent(view.getContext(), PostDetailActivity.class));
+                    MySharedPrefrence.putString(view.getContext(),Constants.Keys.POST_ID,idofpost.getText().toString());
+//                    MySharedPrefrence.putString(view.getContext(),Constants.Keys.COURSE_NAME,title.getText().toString());
+                    //Post(String userName,String courseName,String postTitle, String postText)
+//
+//
+//                    MySharedPrefrence.putString(mContext,Constants.Keys.USERNAME,album.getUserName());
+//                    MySharedPrefrence.putString(mContext,Constants.Keys.COURSE_NAME,album.getCourseName());
+//                    MySharedPrefrence.putString(mContext,Constants.Keys.POST_TITLE,album.getPostTitle());
+//                    MySharedPrefrence.putString(mContext,Constants.Keys.POST_TEXT,album.getPostText());
+
                 }
             });
         }
@@ -56,18 +68,34 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.MyViewHolder
     @Override
     public void onBindViewHolder(final MyViewHolder holder, int position) {
         Post album = albumList.get(position);
-        holder.title.setText(album.getName());
-//        holder.count.setText(album.getNumOfSongs() + " songs");
+        holder.title.setText(album.getPostTitle());
+        holder.idofpost.setText(album.getPostID());
+//
+//        MySharedPrefrence.putString(mContext,Constants.Keys.USERNAME,album.getUserName());
+//        MySharedPrefrence.putString(mContext,Constants.Keys.COURSE_NAME,album.getCourseName());
+//        MySharedPrefrence.putString(mContext,Constants.Keys.POST_TITLE,album.getPostTitle());
+//        MySharedPrefrence.putString(mContext,Constants.Keys.POST_TEXT,album.getPostText());
+
+
+        //Post(String userName,String courseName,String postTitle, String postText)
+
+
+        FirebaseStorage storage = FirebaseStorage.getInstance();
+        final StorageReference storageRef = storage.getReference();
+        //"images/"+userName+courseName+postTitle
+//        final StorageReference ImagesRef = storageRef.child("images/"+album.getUserName()+album.getCourseName()+album.getPostTitle());
+
+        final StorageReference ImagesRef = storageRef.child("images/"+album.getPostID());
+
+// Download directly from StorageReference using Glide
+// (See MyAppGlideModule for Loader registration)
+        Glide.with(mContext)
+                .load(ImagesRef)
+                .into(holder.thumbnail);
 
         // loading album cover using Glide library
-        Glide.with(mContext).load(album.getThumbnail()).into(holder.thumbnail);
+//        Glide.with(mContext).load(album.getThumbnail()).into(holder.thumbnail);
 
-//        holder.overflow.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                showPopupMenu(holder.overflow);
-//            }
-//        });
     }
 
     /**

@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "885112857795",
+    "firebase_url": "https://trans-sunset-266713.firebaseio.com",
+    "project_id": "trans-sunset-266713",
+    "storage_bucket": "trans-sunset-266713.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:885112857795:android:11adfc765947db828f2e76",
+        "android_client_info": {
+          "package_name": "com.example.studynotes"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "885112857795-s1ksv8lkdrovrbbr48qkf3n1nu1ba4pv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBF7DZSFJSZ5esA5Nz0oZPRgmPwMn_IoMs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "885112857795-s1ksv8lkdrovrbbr48qkf3n1nu1ba4pv.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

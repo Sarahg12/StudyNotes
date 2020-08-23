@@ -1,33 +1,48 @@
 package com.example.studynotes;
 
 public class Post {
-    private String name;//title
-    private int thumbnail;//image
+
     private String userName;
+    private String courseName;
+    private String postTitle;
     private String postText;
+    private String postID;
 
 
     public Post() {
     }
 
-    public Post(String name, int thumbnail) {
-        this.name = name;
-        this.thumbnail = thumbnail;
+    public Post(String userName,String courseName,String postTitle, String postText,String postID) {
+        this.userName = userName;
+        this.courseName = courseName;
+        this.postTitle = postTitle;
+        this.postText = postText;
+        this.postID= postID;
+
     }
 
-    public String getName() {
-        return name;
+    public String getUserName() {
+        return userName;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-    public int getThumbnail() {
-        return thumbnail;
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
-    public void setThumbnail(int thumbnail) {
-        this.thumbnail = thumbnail;
+    public String getCourseName() {
+        return courseName;
+    }
+
+    public void setCourseName(String courseName) {
+        this.courseName = courseName;
+    }
+
+    public String getPostTitle() {
+        return postTitle;
+    }
+
+    public void setPostTitle(String postTitle) {
+        this.postTitle = postTitle;
     }
 
     public String getPostText() {
@@ -38,11 +53,11 @@ public class Post {
         this.postText = postText;
     }
 
-    public String getUserName() {
-        return userName;
+    public String getPostID() {
+        return postID;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setPostID(String postID) {
+        this.postID = postID;
     }
 }

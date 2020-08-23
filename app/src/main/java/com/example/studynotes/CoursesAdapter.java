@@ -27,13 +27,15 @@ public class CoursesAdapter extends RecyclerView.Adapter<CoursesAdapter.MyViewHo
         public MyViewHolder(View view) {
             super(view);
             title = (TextView) view.findViewById(R.id.title);
-            count = (TextView) view.findViewById(R.id.count);
+            count = (TextView) view.findViewById(R.id.idofpost);
             thumbnail = (ImageView) view.findViewById(R.id.thumbnail);
 //            overflow = (ImageView) view.findViewById(R.id.overflow);
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     view.getContext().startActivity(new Intent(view.getContext(), PostActivity.class));
+                    MySharedPrefrence.putString(view.getContext(),Constants.Keys.COURSE_NAME,title.getText().toString());
+
                 }
             });
         }

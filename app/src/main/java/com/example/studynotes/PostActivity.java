@@ -1,23 +1,29 @@
 package com.example.studynotes;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.util.TypedValue;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.bumptech.glide.Glide;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,6 +32,9 @@ public class PostActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private PostsAdapter adapter;
     private List<Post> albumList;
+    ConnectionClass connectionClass;
+    String whichCourse;
+    int courseHeader;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,20 +60,44 @@ public class PostActivity extends AppCompatActivity {
 
         prepareAlbums();
 
-//        try {
-//            //TODO ecourses or unnamed
-//            Glide.with(this).load(R.drawable.ecourses).into((ImageView) findViewById(R.id.backdrop));
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
+whichCourse = MySharedPrefrence.getString(PostActivity.this,Constants.Keys.COURSE_NAME,"");
+        switch(whichCourse) {
+            case "Data Structures" :
+                courseHeader=R.drawable.dsmod;
+                break;
+            case "Operating Systems" :
+                courseHeader=R.drawable.oshed;
+                break;
+            case "Java" ://TODO
+                courseHeader=R.drawable.jav;
+                break;
+            case "Software Testing" :
+                courseHeader=R.drawable.sthed;
+                break;
+            case "Linear Algebra" :
+                courseHeader=R.drawable.lghed;
+                break;
+            case "Web Application Development" :
+                courseHeader=R.drawable.wdhed;
+                break;
+            case "Computer Organization" :
+                courseHeader=R.drawable.comod;
+                break;
+            default :
+                courseHeader=R.drawable.archhed;
+        }
+
+        try {
+            //TODO
+            Glide.with(this).load(courseHeader).into((ImageView) findViewById(R.id.backdrop));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                Snackbar.make(view, "Here's a Snackbar", Snackbar.LENGTH_LONG)
-////                        .setAction("Action", null).show();
-
                 Intent intent = new Intent(PostActivity.this, addPostActivity.class);
                 startActivity(intent);            }
         });
@@ -106,42 +139,39 @@ public class PostActivity extends AppCompatActivity {
      * Adding few albums for testing
      */
     private void prepareAlbums() {
-        int[] covers = new int[]{
-                R.drawable.ds1,
-                R.drawable.course2,
-                R.drawable.java,
-                R.drawable.testing,
-                R.drawable.geb,
-                R.drawable.wd,
-                R.drawable.circ,
-                R.drawable.archi
-        };
 
-        Post a = new Post("Data Structures", covers[0]);
-        albumList.add(a);
 
-        a = new Post("Operating Systems", covers[1]);
-        albumList.add(a);
+        try {
+            connectionClass = new ConnectionClass();
+            Connection con = connectionClass.CONN();
 
-        a = new Post("Java", covers[2]);
-        albumList.add(a);
 
-        a = new Post("Software Testing", covers[3]);
-        albumList.add(a);
+            if (con == null) {
+                Toast.makeText(PostActivity.this, "Error...", Toast.LENGTH_LONG).show();
 
-        a = new Post("Linear Algebra", covers[4]);
-        albumList.add(a);
+            } else {
 
-        a = new Post("Web Application Development", covers[5]);
-        albumList.add(a);
+                String courseNameSelected = MySharedPrefrence.getString(PostActivity.this, Constants.Keys.COURSE_NAME, "");
+                Statement st = con.createStatement();
+                String sql = ("SELECT * FROM Posts WHERE courseName = '" + courseNameSelected + "'");
+                ResultSet rs = st.executeQuery(sql);
+                while (rs.next()) {
 
-        a = new Post("Computer Organization", covers[6]);
-        albumList.add(a);
+                    String userName = rs.getString("userName");
+                    String courseName = rs.getString("courseName");
+                    String postTitle = rs.getString("postTitle");
+                    String postText = rs.getString("postText");
 
-        a = new Post("Software Design & Architecture", covers[7]);
-        albumList.add(a);
+                    Post a = new Post( userName, courseName, postTitle,  postText,userName+courseName+postTitle);
+                    albumList.add(a);
+                }
+                adapter.notifyDataSetChanged();
+            }
 
-        adapter.notifyDataSetChanged();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
     }
 
     /**
@@ -189,5 +219,13 @@ public class PostActivity extends AppCompatActivity {
     private int dpToPx(int dp) {
         Resources r = getResources();
         return Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, r.getDisplayMetrics()));
+    }
+
+
+    @Override
+    public void onBackPressed()
+    {
+        Intent intent = new Intent(this,CourseActivity.class);
+        startActivity(intent);
     }
 }

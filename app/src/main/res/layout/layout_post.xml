@@ -17,7 +17,7 @@
 
         <TextView
             style="@style/headerTextPrimary"
-            android:text="Post"
+            android:text="Note"
             android:textColor="@color/colorPrimaryDark"
             android:layout_marginTop="@dimen/loginViewsMargin"/>
 
@@ -29,7 +29,7 @@
                 android:id="@+id/user_name"
                 style="@style/modifiedEditText"
                 android:backgroundTint="@color/colorPrimary"
-                android:hint="Name"
+                android:hint="Student Name"
                 android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ "
                 android:inputType="textPersonName"
                 android:maxLines="1" />
@@ -43,7 +43,7 @@
                 android:id="@+id/post_title"
                 style="@style/modifiedEditText"
                 android:backgroundTint="@color/colorPrimary"
-                android:hint="Post Title"
+                android:hint="Note Title"
                 android:inputType="text"
                 android:maxLines="1" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -74,7 +74,7 @@
                 android:id="@+id/post_text"
                 style="@style/modifiedEditText"
                 android:backgroundTint="@color/colorPrimary"
-                android:hint="Post Text"
+                android:hint="Note Description"
                 android:inputType="textMultiLine"
                 android:maxLines="1000" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -85,21 +85,22 @@
             android:layout_height="@dimen/album_cover_height"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:clickable="true"
-            android:scaleType="fitXY" />
+            android:scaleType="fitXY"
+            android:layout_marginTop="10dp"/>
 
-<!--        <Button-->
-<!--            android:id="@+id/upload"-->
-<!--            style="@style/loginButton"-->
-<!--            android:layout_gravity="center"-->
-<!--            android:layout_marginTop="10dp"-->
-<!--            android:text="upload" />-->
         <Button
             android:id="@+id/upload"
             style="@style/loginButton"
             android:layout_gravity="center"
-            android:layout_marginTop="10dp"
-            android:text="Upload a picture"
-            android:drawableStart="@drawable/ic_baseline_image_24"/>
+            android:drawableLeft="@drawable/ic_baseline_image_24"
+            android:drawablePadding="2dip"
+            android:gravity="center"
+            android:paddingLeft="30dip"
+            android:paddingRight="26dip"
+            android:singleLine="true"
+            android:text="Upload image"
+            android:textSize="13dip"
+            android:layout_marginTop="10dp"/>
 
         <Button
             android:id="@+id/submit_button"
